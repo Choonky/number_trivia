@@ -14,9 +14,10 @@ class TriviaPage extends StatefulWidget {
 class _TriviaPageState extends State<TriviaPage> {
   final Random random = Random();
   int randomNumber = 4200;
-
   String description =
       '4200 is the number of standard size of a legion in the Roman Republic';
+
+  List<String> favorite = [];
 
   Future<void> fetchTrivia() async {
     final http.Response response =
@@ -35,19 +36,36 @@ class _TriviaPageState extends State<TriviaPage> {
       ),
       backgroundColor: Colors.blue[100],
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TriviaTitle('$randomNumber'),
           TriviaDescription(
             description,
           ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                randomNumber = random.nextInt(999);
-                fetchTrivia();
-              });
-            },
-            child: Text('Random Trivia'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    randomNumber = random.nextInt(999);
+                    fetchTrivia();
+                  });
+                },
+                child: Text('Random Trivia'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  favorite.add(description);
+
+                  print(favorite);
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green),
+                ),
+                child: Text('Favorite'),
+              ),
+            ],
           ),
         ],
       ),
