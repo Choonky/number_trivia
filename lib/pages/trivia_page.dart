@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:number_trivia/pages/favorites_page.dart';
 import 'package:number_trivia/widgets/trivia_description.dart';
 import 'package:number_trivia/widgets/trivia_title.dart';
 import 'dart:math';
@@ -17,7 +18,7 @@ class _TriviaPageState extends State<TriviaPage> {
   String description =
       '4200 is the number of standard size of a legion in the Roman Republic';
 
-  List<String> favorite = [];
+  List<String> favorites = [];
 
   Future<void> fetchTrivia() async {
     final http.Response response =
@@ -33,6 +34,17 @@ class _TriviaPageState extends State<TriviaPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Number Trivia'),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.list),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FavoritesPage(favorites)),
+                );
+              }),
+        ],
       ),
       backgroundColor: Colors.blue[100],
       body: Column(
@@ -56,9 +68,9 @@ class _TriviaPageState extends State<TriviaPage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  favorite.add(description);
+                  favorites.add(description);
 
-                  print(favorite);
+                  print(favorites);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
